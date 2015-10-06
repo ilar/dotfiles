@@ -42,7 +42,8 @@ EDITOR='vim'
    (( count = $count + 1 ))
     done
     PR_NO_COLOR="%{$terminfo[sgr0]%}"
-PS1="[$PR_BLUE%n$PR_WHITE@$PR_GREEN%U%m%u$PR_NO_COLOR:$PR_RED%2c$PR_NO_COLOR]%(!                                                                                                                                                             .#.$) "
+PS1="[$PR_BLUE%n$PR_WHITE@$PR_GREEN%U%m%u$PR_NO_COLOR:$PR_RED%2c$PR_NO_COLOR]%(!
+     .#.$) "
 RPS1="$PR_LIGHT_YELLOW(%D{%m-%d %H:%M})$PR_NO_COLOR"
 #LANGUAGE=
 LC_ALL='en_US.UTF-8'
@@ -67,31 +68,34 @@ alias ll='ls -alG'
 alias ls='ls -G'
 alias offlineimap-tty='offlineimap -u TTY.TTYUI'
 alias hnb-partecs='hnb $HOME/partecs/partecs-hnb.xml'
-alias rest2html-css='rst2html --embed-stylesheet --stylesheet-path=/usr/share/py                                                                                                                                                             thon-docutils/s5_html/themes/default/print.css'
+alias rest2html-css='rst2html --embed-stylesheet --stylesheet-path=/usr/share/py
+                     thon-docutils/s5_html/themes/default/print.css'
 alias s='ssh'
 
 
 autoload -U compinit
 compinit
-bindkey " backward-delete-char
-bindkey "" delete-char
-bindkey 'H' beginning-of-line
-bindkey '' delete-char
-bindkey 'F' end-of-line
+bindkey "^H" backward-delete-char
+bindkey '^[OH' beginning-of-line
+bindkey '^[3~' delete-char
+bindkey '^[OOF' end-of-line
 bindkey '^[[5~' up-line-or-history
 bindkey '^[[6~' down-line-or-history
 bindkey "^r" history-incremental-search-backward
 bindkey ' ' magic-space    # also do history expansion on space
 bindkey '^I' complete-word # complete on tab, leave expansion to _expand
+bindkey '^[^M' self-insert-unmeta
 zstyle ':completion::complete:*' use-cache on
 zstyle ':completion::complete:*' cache-path ~/.zsh/cache/$HOST
 
 zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
-zstyle ':completion:*' list-prompt '%SAt %p: Hit TAB for more, or the character                                                                                                                                                              to insert%s'
+zstyle ':completion:*' list-prompt '%SAt %p: Hit TAB for more, or the character
+        to insert%s'
 zstyle ':completion:*' menu select=1 _complete _ignored _approximate
 zstyle -e ':completion:*:approximate:*' max-errors \
     'reply=( $(( ($#PREFIX+$#SUFFIX)/2 )) numeric )'
-zstyle ':completion:*' select-prompt '%SScrolling active: current selection at %                                                                                                                                                             p%s'
+zstyle ':completion:*' select-prompt '%SScrolling active: current selection at %
+        p%s'
 
 # Completion Styles
 
@@ -126,8 +130,10 @@ zstyle ':completion:*:*:-subscript-:*' tag-order indexes parameters
 ## add colors to processes for kill completion
 zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#)*=0=01;31'
 
-#zstyle ':completion:*:processes' command 'ps ax -o pid,s,nice,stime,args | sed                                                                                                                                                              "/ps/d"'
-zstyle ':completion:*:*:kill:*:processes' command 'ps --forest -A -o pid,user,cm                                                                                                                                                             d'
+#zstyle ':completion:*:processes' command 'ps ax -o pid,s,nice,stime,args | sed
+#       "/ps/d"'
+zstyle ':completion:*:*:kill:*:processes' command 'ps --forest -A -o pid,user,cm
+        d'
 zstyle ':completion:*:processes-names' command 'ps axho command'
 #zstyle ':completion:*:urls' local 'www' '/var/www/htdocs' 'public_html'
 #
