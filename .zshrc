@@ -1,6 +1,6 @@
 ######################################################################
 #           spease's zshrc file v1.3.1 , based on:
-#                     jdong's zshrc file v0.2.1
+#		      jdong's zshrc file v0.2.1
 #
 #
 ######################################################################
@@ -8,9 +8,9 @@
 # next lets set some enviromental/shell pref stuff up
 setopt INC_APPEND_HISTORY SHARE_HISTORY
 setopt APPEND_HISTORY
-unsetopt BG_NICE                # do NOT nice bg commands
-setopt CORRECT                  # command CORRECTION
-setopt EXTENDED_HISTORY         # puts timestamps in the history
+unsetopt BG_NICE		# do NOT nice bg commands
+setopt CORRECT			# command CORRECTION
+setopt EXTENDED_HISTORY		# puts timestamps in the history
 
 setopt MENUCOMPLETE
 setopt ALL_EXPORT
@@ -18,7 +18,7 @@ setopt ALL_EXPORT
 # Set/unset  shell options
 setopt   notify globdots correct pushdtohome cdablevars autolist
 setopt   correctall autocd recexact longlistjobs
-setopt   autoresume histignoredups pushdsilent
+setopt   autoresume histignoredups pushdsilent 
 setopt   autopushd pushdminus extendedglob rcquotes mailwarning
 unsetopt bgnice autoparamslash
 
@@ -42,8 +42,7 @@ EDITOR='vim'
    (( count = $count + 1 ))
     done
     PR_NO_COLOR="%{$terminfo[sgr0]%}"
-PS1="[$PR_BLUE%n$PR_WHITE@$PR_GREEN%U%m%u$PR_NO_COLOR:$PR_RED%2c$PR_NO_COLOR]%(!
-     .#.$) "
+PS1="[$PR_BLUE%n$PR_WHITE@$PR_GREEN%U%m%u$PR_NO_COLOR:$PR_RED%2c$PR_NO_COLOR]%(!.#.$) "
 RPS1="$PR_LIGHT_YELLOW(%D{%m-%d %H:%M})$PR_NO_COLOR"
 #LANGUAGE=
 LC_ALL='en_US.UTF-8'
@@ -53,8 +52,6 @@ LSCOLORS="ExfxcxdxcxegedaBagacad"
 
 if [ $SSH_TTY ]; then
   MUTT_EDITOR=vim
-else
-  MUTT_EDITOR=emacsclient.emacs-snapshot
 fi
 
 unsetopt ALL_EXPORT
@@ -64,38 +61,35 @@ unsetopt ALL_EXPORT
 
 alias man='LC_ALL=C LANG=C man'
 alias f=finger
-alias ll='ls -alG'
-alias ls='ls -G'
-alias offlineimap-tty='offlineimap -u TTY.TTYUI'
-alias hnb-partecs='hnb $HOME/partecs/partecs-hnb.xml'
-alias rest2html-css='rst2html --embed-stylesheet --stylesheet-path=/usr/share/py
-                     thon-docutils/s5_html/themes/default/print.css'
+alias ll='ls -hal --color=always'
+alias ls='ls --color=always'
 alias s='ssh'
+alias t='touch'
+alias diff="diff -u"
+alias dcolo="sed 's/^[^+-@]\(.*\)$/[2m\1[0m/gm' | sed 's/^-\(.*\)$/[38;5;203m-\1[0m/gm' | sed 's/^+\(.*\)$/[38;5;103m+\1[0m/gm' | sed 's/^@@ -\([[:digit:]]*\),\([[:digit:]]*\) +\([[:digit:]]*\),\([[:digit:]]*\) @@/Lines [38;5;203m\1[0m and [38;5;103m\3[0m\./gm'"
 
 
 autoload -U compinit
 compinit
-bindkey "^H" backward-delete-char
-bindkey '^[OH' beginning-of-line
-bindkey '^[3~' delete-char
-bindkey '^[OOF' end-of-line
+bindkey "" backward-delete-char
+bindkey "" backward-delete-char
+bindkey '^[[2~' beginning-of-line
+bindkey '^[[3~' delete-char
+bindkey '^[[4~' end-of-line
 bindkey '^[[5~' up-line-or-history
 bindkey '^[[6~' down-line-or-history
 bindkey "^r" history-incremental-search-backward
 bindkey ' ' magic-space    # also do history expansion on space
 bindkey '^I' complete-word # complete on tab, leave expansion to _expand
-bindkey '^[^M' self-insert-unmeta
 zstyle ':completion::complete:*' use-cache on
 zstyle ':completion::complete:*' cache-path ~/.zsh/cache/$HOST
 
 zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
-zstyle ':completion:*' list-prompt '%SAt %p: Hit TAB for more, or the character
-        to insert%s'
+zstyle ':completion:*' list-prompt '%SAt %p: Hit TAB for more, or the character to insert%s'
 zstyle ':completion:*' menu select=1 _complete _ignored _approximate
 zstyle -e ':completion:*:approximate:*' max-errors \
     'reply=( $(( ($#PREFIX+$#SUFFIX)/2 )) numeric )'
-zstyle ':completion:*' select-prompt '%SScrolling active: current selection at %
-        p%s'
+zstyle ':completion:*' select-prompt '%SScrolling active: current selection at %p%s'
 
 # Completion Styles
 
@@ -105,7 +99,7 @@ zstyle ':completion:*::::' completer _expand _complete _ignored _approximate
 # allow one error for every three characters typed in approximate completer
 zstyle -e ':completion:*:approximate:*' max-errors \
     'reply=( $(( ($#PREFIX+$#SUFFIX)/2 )) numeric )'
-
+    
 # insert all expansions for expand completer
 zstyle ':completion:*:expand:*' tag-order all-expansions
 
@@ -130,11 +124,9 @@ zstyle ':completion:*:*:-subscript-:*' tag-order indexes parameters
 ## add colors to processes for kill completion
 zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#)*=0=01;31'
 
-#zstyle ':completion:*:processes' command 'ps ax -o pid,s,nice,stime,args | sed
-#       "/ps/d"'
-zstyle ':completion:*:*:kill:*:processes' command 'ps --forest -A -o pid,user,cm
-        d'
-zstyle ':completion:*:processes-names' command 'ps axho command'
+#zstyle ':completion:*:processes' command 'ps ax -o pid,s,nice,stime,args | sed "/ps/d"'
+zstyle ':completion:*:*:kill:*:processes' command 'ps --forest -A -o pid,user,cmd'
+zstyle ':completion:*:processes-names' command 'ps axho command' 
 #zstyle ':completion:*:urls' local 'www' '/var/www/htdocs' 'public_html'
 #
 #NEW completion:
@@ -156,3 +148,5 @@ zstyle ':completion:*:*:*:users' ignored-patterns \
         avahi backup messagebus beagleindex debian-tor dhcp dnsmasq fetchmail\
         firebird gnats haldaemon hplip irc klog list man cupsys postfix\
         proxy syslog www-data mldonkey sys snort
+
+source "${HOME}/.zshrc.local"
