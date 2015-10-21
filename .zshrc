@@ -65,8 +65,8 @@ alias ll='ls -hal --color=always'
 alias ls='ls --color=always'
 alias s='ssh'
 alias t='touch'
-alias diff="diff -u"
-alias dcolo="sed 's/^[^+-@]\(.*\)$/[2m\1[0m/gm' | sed 's/^-\(.*\)$/[38;5;203m-\1[0m/gm' | sed 's/^+\(.*\)$/[38;5;103m+\1[0m/gm' | sed 's/^@@ -\([[:digit:]]*\),\([[:digit:]]*\) +\([[:digit:]]*\),\([[:digit:]]*\) @@/Lines [38;5;203m\1[0m and [38;5;103m\3[0m\./gm'"
+alias diff="my_diff"
+alias diff_color="perl -pe 's/^[^+-@](.*)$/[2m\1[0m/gm|s/^(\-.*)$/[38;5;203m\1[0m/gm|s/^\+(.*)$/[38;5;103m+\1[0m/gm|s/^@@ \-(\d+),\d+ \+(\d+),\d+ @@/Lines [38;5;203m\1[0m and [38;5;103m\2[0m\./gm'"
 
 
 autoload -U compinit
@@ -148,5 +148,9 @@ zstyle ':completion:*:*:*:users' ignored-patterns \
         avahi backup messagebus beagleindex debian-tor dhcp dnsmasq fetchmail\
         firebird gnats haldaemon hplip irc klog list man cupsys postfix\
         proxy syslog www-data mldonkey sys snort
+
+my_diff() {
+	/bin/diff -u $@ | diff_color
+}
 
 source "${HOME}/.zshrc.local"
