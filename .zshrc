@@ -32,16 +32,16 @@ HOSTNAME="`hostname`"
 PAGER='less'
 TERM=xterm-256color
 EDITOR='vim'
-    autoload colors zsh/terminfo
-    if [[ "$terminfo[colors]" -ge 8 ]]; then
-   colors
-    fi
-    for color in RED GREEN YELLOW BLUE MAGENTA CYAN WHITE; do
-   eval PR_$color='%{$terminfo[bold]$fg[${(L)color}]%}'
-   eval PR_LIGHT_$color='%{$fg[${(L)color}]%}'
-   (( count = $count + 1 ))
-    done
-    PR_NO_COLOR="%{$terminfo[sgr0]%}"
+autoload colors zsh/terminfo
+if [[ "$terminfo[colors]" -ge 8 ]]; then
+  colors
+fi
+for color in RED GREEN YELLOW BLUE MAGENTA CYAN WHITE; do
+  eval PR_$color='%{$terminfo[bold]$fg[${(L)color}]%}'
+  eval PR_LIGHT_$color='%{$fg[${(L)color}]%}'
+  (( count = $count + 1 ))
+done
+PR_NO_COLOR="%{$terminfo[sgr0]%}"
 PS1="[$PR_BLUE%n$PR_WHITE@$PR_GREEN%U%m%u$PR_NO_COLOR:$PR_RED%2c$PR_NO_COLOR]%(!.#.$) "
 RPS1="$PR_LIGHT_YELLOW(%D{%m-%d %H:%M})$PR_NO_COLOR"
 #LANGUAGE=
@@ -88,7 +88,7 @@ zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 zstyle ':completion:*' list-prompt '%SAt %p: Hit TAB for more, or the character to insert%s'
 zstyle ':completion:*' menu select=1 _complete _ignored _approximate
 zstyle -e ':completion:*:approximate:*' max-errors \
-    'reply=( $(( ($#PREFIX+$#SUFFIX)/2 )) numeric )'
+  'reply=( $(( ($#PREFIX+$#SUFFIX)/2 )) numeric )'
 zstyle ':completion:*' select-prompt '%SScrolling active: current selection at %p%s'
 
 # Completion Styles
@@ -98,8 +98,8 @@ zstyle ':completion:*::::' completer _expand _complete _ignored _approximate
 
 # allow one error for every three characters typed in approximate completer
 zstyle -e ':completion:*:approximate:*' max-errors \
-    'reply=( $(( ($#PREFIX+$#SUFFIX)/2 )) numeric )'
-    
+  'reply=( $(( ($#PREFIX+$#SUFFIX)/2 )) numeric )'
+
 # insert all expansions for expand completer
 zstyle ':completion:*:expand:*' tag-order all-expansions
 
@@ -135,43 +135,43 @@ zstyle ':completion:*:processes-names' command 'ps axho command'
 #    then foobar.domain will show up in autocomplete!
 # Filename suffixes to ignore during completion (except after rm command)
 zstyle ':completion:*:*:(^rm):*:*files' ignored-patterns '*?.o' '*?.c~' \
-    '*?.old' '*?.pro'
+  '*?.old' '*?.pro'
 # the same for old style completion
 #fignore=(.o .c~ .old .pro)
 
 # ignore completion functions (until the _ignored completer)
 zstyle ':completion:*:functions' ignored-patterns '_*'
 zstyle ':completion:*:*:*:users' ignored-patterns \
-        adm apache bin daemon games gdm halt ident junkbust lp mail mailnull \
-        named news nfsnobody nobody nscd ntp operator pcap postgres radvd \
-        rpc rpcuser rpm shutdown squid sshd sync uucp vcsa xfs avahi-autoipd\
-        avahi backup messagebus beagleindex debian-tor dhcp dnsmasq fetchmail\
-        firebird gnats haldaemon hplip irc klog list man cupsys postfix\
-        proxy syslog www-data mldonkey sys snort
+  adm apache bin daemon games gdm halt ident junkbust lp mail mailnull \
+  named news nfsnobody nobody nscd ntp operator pcap postgres radvd \
+  rpc rpcuser rpm shutdown squid sshd sync uucp vcsa xfs avahi-autoipd\
+  avahi backup messagebus beagleindex debian-tor dhcp dnsmasq fetchmail\
+  firebird gnats haldaemon hplip irc klog list man cupsys postfix\
+  proxy syslog www-data mldonkey sys snort
 
 my_diff() {
-	/bin/diff -u $@ | diff_color
+  /bin/diff -u $@ | diff_color
 }
 
 update-dotfiles() {
-	git pull "${HOME}/.dotfiles/dotfiles/"
+  git pull "${HOME}/.dotfiles/dotfiles/"
 }
 
 setup-dotfiles() {
-	spawn ssh -t $@ "mkdir -p \"${HOME}/.dotfiles/\"; git clone \"https://github.com/ilar/dotfiles.git\" \"${HOME}/.dotfiles/\" ; for internal_ilar_var_file in \"${HOME}/.dotfiles/dotfiles/*\"; do; ln -s \"${HOME}/.dotfiles/dotfiles/$(basename $internal_ilar_var_file)\" \"${HOME}/$(basename $internal_ilar_var_file)\" ; done ; /bin/zsh"
+  spawn ssh -t $@ "mkdir -p \"${HOME}/.dotfiles/\"; git clone \"https://github.com/ilar/dotfiles.git\" \"${HOME}/.dotfiles/\" ; for internal_ilar_var_file in \"${HOME}/.dotfiles/dotfiles/*\"; do; ln -s \"${HOME}/.dotfiles/dotfiles/$(basename $internal_ilar_var_file)\" \"${HOME}/$(basename $internal_ilar_var_file)\" ; done ; /bin/zsh"
 }
 
 push-dotfiles() {
-	if [ -z "$1" ]; then
-		echo "You must have a commit message."
-	else
-		internal_ilar_var_cwd=$(pwd)
-		cd "${HOME}/.dotfiles/dotfiles/"
-		git add "${HOME}/.dotfiles/dotfiles/*"
-		git commit -a -m "$1"
-		git push 
-		cd "$internal_ilar_var_cwd"
-	fi
+  if [ -z "$1" ]; then
+    echo "You must have a commit message."
+  else
+    internal_ilar_var_cwd=$(pwd)
+    cd "${HOME}/.dotfiles/dotfiles/"
+    git add "${HOME}/.dotfiles/dotfiles/*"
+    git commit -a -m "$1"
+    git push 
+    cd "$internal_ilar_var_cwd"
+  fi
 }
 
 source "${HOME}/.zshrc.local"
