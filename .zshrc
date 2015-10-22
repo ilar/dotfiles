@@ -162,10 +162,16 @@ setup-dotfiles() {
 }
 
 push-dotfiles() {
-	cd "${HOME}/.dotfiles/dotfiles/"
-	git add "${HOME}/.dotfiles/dotfiles/*"
-	git commit -a -m "$1"
-	git push 
+	if [ -z "$1" ]; then
+		echo "You must have a commit message."
+	else
+		internal_ilar_var_cwd=$(pwd)
+		cd "${HOME}/.dotfiles/dotfiles/"
+		git add "${HOME}/.dotfiles/dotfiles/*"
+		git commit -a -m "$1"
+		git push 
+		cd "$internal_ilar_var_cwd"
+	fi
 }
 
 source "${HOME}/.zshrc.local"
