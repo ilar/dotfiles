@@ -153,4 +153,19 @@ my_diff() {
 	/bin/diff -u $@ | diff_color
 }
 
+update-dotfiles() {
+	git pull "${HOME}/.dotfiles/dotfiles/"
+}
+
+setup-dotfiles() {
+	mkdir -p "${HOME}/.dotfiles/"
+	git clone "https://github.com/ilar/dotfiles.git" "${HOME}/.dotfiles/"
+}
+
+push-dotfiles() {
+	git add "${HOME}/.dotfiles/dotfiles/*"
+	git commit -m "$1" "${HOME}/.dotfiles/dotfiles/"
+	git push "${HOME}/.dotfiles/dotfiles"
+}
+
 source "${HOME}/.zshrc.local"
