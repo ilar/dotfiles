@@ -61,8 +61,13 @@ unsetopt ALL_EXPORT
 
 alias man='LC_ALL=C LANG=C man'
 alias f=finger
-alias ll='ls -hal --color=always'
-alias ls='ls --color=always'
+if [ `uname` = "FreeBSD" ]; then
+  alias ll='ls -halG'
+  alias ls='ls -G'
+else
+  alias ll='ls -hal --color=auto'
+  alias ls 'ls --color=auto'
+fi
 alias s='ssh'
 alias t='touch'
 alias diff="my_diff"
@@ -169,7 +174,8 @@ update-dotfiles() {
 }
 
 ssh-dotfiles() {
-  spawn ssh -t $@ "mkdir -p \"${HOME}/.dotfiles/dotfiles/\"; git clone \"https://github.com/ilar/dotfiles.git\" \"${HOME}/.dotfiles/dotfiles/\" ; for internal_ilar_var_file in ${HOME}/.dotfiles/dotfiles/*; do; ln -s \"${HOME}/.dotfiles/dotfiles/$(basename $internal_ilar_var_file)\" \"${HOME}/$(basename $internal_ilar_var_file)\" ; done"
+  scp -r "${HOME}/.dotfiles" "$1:"
+  #ssh -t $@ 'mkdir -p "${HOME}/.dotfiles/dotfiles/"; git clone "https://github.com/ilar/dotfiles.git" "${HOME}/.dotfiles/dotfiles/" ; for internal_ilar_var_file in ${HOME}/.dotfiles/dotfiles/*; do; ln -s "${HOME}/.dotfiles/dotfiles/$(basename $internal_ilar_var_file)" "${HOME}/$(basename $internal_ilar_var_file)" ; done'
 }
 
 push-dotfiles() {
