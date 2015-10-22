@@ -159,7 +159,7 @@ my_diff() {
 }
 
 first-install() {
-  if [ "$1" = "nogit" ]; then
+  if ! [ "$1" = "nogit" ]; then
     internal_ilar_var_cwd=$(pwd)
     mkdir -p "${HOME}/.dotfiles/dotfiles/"
     cd "${HOME}/.dotfiles/dotfiles/"
@@ -187,9 +187,9 @@ first-install() {
 update-dotfiles() {
   if [ "$1" = "nogit" ]; then
     mkdir -p "${HOME}/.dotfiles/dotfiles/"
-    curl "https://codeload.github.com/ilar/dotfiles/zip/master" -o "${HOME}/dotfiles/update.zip"
-    unzip "${HOME}/dotfiles/update.zip" -d "${HOME}/dotfiles/"
-    cp -r "${HOME}/dotfiles/dotfiles-master/*" "${HOME}/.dotfiles/dotfiles/"
+    curl "https://codeload.github.com/ilar/dotfiles/zip/master" -o "${HOME}/.dotfiles/update.zip"
+    unzip "${HOME}/.dotfiles/update.zip" -d "${HOME}/.dotfiles/"
+    cp -r ${HOME}/.dotfiles/dotfiles-master/* "${HOME}/.dotfiles/dotfiles/"
   else
     git pull "${HOME}/.dotfiles/dotfiles/"
   fi
