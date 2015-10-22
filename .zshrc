@@ -66,7 +66,7 @@ if [ `uname` = "FreeBSD" ]; then
   alias ls='ls -G'
 else
   alias ll='ls -hal --color=auto'
-  alias ls 'ls --color=auto'
+  alias ls='ls --color=auto'
 fi
 alias s='ssh'
 alias t='touch'
