@@ -181,6 +181,7 @@ first-install() {
       fi
     done
     source "${HOME}/.zshrc"
+  fi
 }
 
 update-dotfiles() {
