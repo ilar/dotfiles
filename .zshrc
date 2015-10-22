@@ -153,12 +153,23 @@ my_diff() {
   /bin/diff -u $@ | diff_color
 }
 
+first-install() {
+  internal_ilar_var_cwd=$(pwd)
+  mkdir -p "${HOME}/.dotfiles/"
+  cd "${HOME}/.dotfiles/"
+  git clone "https://github.com/ilar/dotfiles.git"
+  for internal_ilar_var_file in "${HOME}/.dotfiles/dotfiles/*"; do
+    ln -s "${HOME}/.dotfiles/dotfiles/$(basename $internal_ilar_var_file)" "${HOME}/$(basename $internal_ilar_var_file)"
+  done
+  cd "$internal_ilar_var_cwd"
+}
+
 update-dotfiles() {
   git pull "${HOME}/.dotfiles/dotfiles/"
 }
 
-setup-dotfiles() {
-  spawn ssh -t $@ "mkdir -p \"${HOME}/.dotfiles/\"; git clone \"https://github.com/ilar/dotfiles.git\" \"${HOME}/.dotfiles/\" ; for internal_ilar_var_file in \"${HOME}/.dotfiles/dotfiles/*\"; do; ln -s \"${HOME}/.dotfiles/dotfiles/$(basename $internal_ilar_var_file)\" \"${HOME}/$(basename $internal_ilar_var_file)\" ; done ; /bin/zsh"
+ssh-dotfiles() {
+  spawn ssh -t $@ "mkdir -p \"${HOME}/.dotfiles/\"; git clone \"https://github.com/ilar/dotfiles.git\" \"${HOME}/.dotfiles/\" ; for internal_ilar_var_file in \"${HOME}/.dotfiles/dotfiles/*\"; do; ln -s \"${HOME}/.dotfiles/dotfiles/$(basename $internal_ilar_var_file)\" \"${HOME}/$(basename $internal_ilar_var_file)\" ; done"
 }
 
 push-dotfiles() {
