@@ -159,22 +159,43 @@ my_diff() {
 }
 
 first-install() {
-  internal_ilar_var_cwd=$(pwd)
-  mkdir -p "${HOME}/.dotfiles/dotfiles/"
-  cd "${HOME}/.dotfiles/dotfiles/"
-  git clone "https://github.com/ilar/dotfiles.git"
-  for internal_ilar_var_file in ${HOME}/.dotfiles/dotfiles/*; do
-    ln -s "${HOME}/.dotfiles/dotfiles/$(basename $internal_ilar_var_file)" "${HOME}/$(basename $internal_ilar_var_file)"
-  done
-  cd "$internal_ilar_var_cwd"
+  if [ "$1" = "nogit" ]; then
+    internal_ilar_var_cwd=$(pwd)
+    mkdir -p "${HOME}/.dotfiles/dotfiles/"
+    cd "${HOME}/.dotfiles/dotfiles/"
+    git clone "https://github.com/ilar/dotfiles.git"
+    for internal_ilar_var_file in ${HOME}/.dotfiles/dotfiles/*; do
+      if ! [ "$(basename $internal_ilar_var_file)" = ".git" ]; then
+        rm "${HOME}/$(basename $internal_ilar_var_file)"
+        ln -s "${HOME}/.dotfiles/dotfiles/$(basename $internal_ilar_var_file)" "${HOME}/$(basename $internal_ilar_var_file)"
+      fi
+    done
+    source "${HOME}/.zshrc"
+    cd "$internal_ilar_var_cwd"
+  else
+    update-dotfiles nogit
+    for internal_ilar_var_file in ${HOME}/.dotfiles/dotfiles/*; do
+      if ! [ "$(basename $internal_ilar_var_file)" = ".git" ]; then
+        rm "${HOME}/$(basename $internal_ilar_var_file)"
+        ln -s "${HOME}/.dotfiles/dotfiles/$(basename $internal_ilar_var_file)" "${HOME}/$(basename $internal_ilar_var_file)"
+      fi
+    done
+    source "${HOME}/.zshrc"
 }
 
 update-dotfiles() {
-  git pull "${HOME}/.dotfiles/dotfiles/"
+  if [ "$1" = "nogit" ]; then
+    mkdir -p "${HOME}/.dotfiles/dotfiles/"
+    curl "https://codeload.github.com/ilar/dotfiles/zip/master" -o "${HOME}/dotfiles/update.zip"
+    unzip "${HOME}/dotfiles/update.zip" -d "${HOME}/dotfiles/"
+    cp -r "${HOME}/dotfiles/dotfiles-master/*" "${HOME}/.dotfiles/dotfiles/"
+  else
+    git pull "${HOME}/.dotfiles/dotfiles/"
+  fi
 }
 
 ssh-dotfiles() {
-  scp -r "${HOME}/.dotfiles" "$1:"
+  scp -r "${HOME}/.dotfiles/dotfiles/.zshrc" "$1:"
   #ssh -t $@ 'mkdir -p "${HOME}/.dotfiles/dotfiles/"; git clone "https://github.com/ilar/dotfiles.git" "${HOME}/.dotfiles/dotfiles/" ; for internal_ilar_var_file in ${HOME}/.dotfiles/dotfiles/*; do; ln -s "${HOME}/.dotfiles/dotfiles/$(basename $internal_ilar_var_file)" "${HOME}/$(basename $internal_ilar_var_file)" ; done'
 }
 
