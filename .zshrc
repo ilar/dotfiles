@@ -158,14 +158,14 @@ update-dotfiles() {
 }
 
 setup-dotfiles() {
-	mkdir -p "${HOME}/.dotfiles/"
-	git clone "https://github.com/ilar/dotfiles.git" "${HOME}/.dotfiles/"
+	spawn ssh -t $@ "mkdir -p \"${HOME}/.dotfiles/\"; git clone \"https://github.com/ilar/dotfiles.git\" \"${HOME}/.dotfiles/\" ; for internal_ilar_var_file in \"${HOME}/.dotfiles/dotfiles/*\"; do; ln -s \"${HOME}/.dotfiles/dotfiles/$(basename $internal_ilar_var_file)\" \"${HOME}/$(basename $internal_ilar_var_file)\" ; done ; /bin/zsh"
 }
 
 push-dotfiles() {
+	cd "${HOME}/.dotfiles/dotfiles/"
 	git add "${HOME}/.dotfiles/dotfiles/*"
-	git commit -m "$1" "${HOME}/.dotfiles/dotfiles/"
-	git push "${HOME}/.dotfiles/dotfiles"
+	git commit -a -m "$1"
+	git push 
 }
 
 source "${HOME}/.zshrc.local"
