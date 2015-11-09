@@ -162,7 +162,7 @@ first-install() {
   if ! [ "$1" = "nogit" ]; then
     internal_ilar_var_cwd=$(pwd)
     mkdir -p "${HOME}/.dotfiles/dotfiles/"
-    cd "${HOME}/.dotfiles/dotfiles/"
+    cd "${HOME}/.dotfiles/"
     git clone "https://github.com/ilar/dotfiles.git"
     for internal_ilar_var_file in ${HOME}/.dotfiles/dotfiles/*; do
       if ! [ "$(basename $internal_ilar_var_file)" = ".git" ]; then
