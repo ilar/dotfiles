@@ -1,3 +1,10 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =1
+let g:netrw_dirhist_cnt =8
 let g:netrw_dirhist_1='/home/spease/.vim'
+let g:netrw_dirhist_2='/home/spease/api/hosting/ai/maps/svg'
+let g:netrw_dirhist_3='/home/spease/api/hosting/ai/maps/scripts'
+let g:netrw_dirhist_4='/home/spease/api/build'
+let g:netrw_dirhist_5='/home/spease/api/hosting/ai/maps/css'
+let g:netrw_dirhist_6='/home/spease/.zsh'
+let g:netrw_dirhist_7='/home/spease/api/hosting/ai/maps/scripts'
+let g:netrw_dirhist_8='/home/spease/api/hosting/ai/maps'
