@@ -61,7 +61,7 @@ unsetopt ALL_EXPORT
 
 alias man='LC_ALL=C LANG=C man'
 alias f=finger
-if [ `uname` = "FreeBSD" ]; then
+if [ $(uname) = "FreeBSD" ] || [ $(uname) = "Darwin" ]; then
   alias ll='ls -halG'
   alias ls='ls -G'
 else

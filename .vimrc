@@ -13,12 +13,13 @@ set incsearch
 set history=500
 set undolevels=500
 filetype plugin indent on
-set tabstop=2
-set shiftwidth=2
+set tabstop=4
+set shiftwidth=4
 set expandtab
 set listchars=tab:>.,trail:.,extends:#,nbsp:.
 autocmd filetype html,xml set listchars-=tab:>.
 set pastetoggle=<F2>
+inoremap jj <Esc>
 nnoremap j gj
 nnoremap k gk
 " Easy window navigation
