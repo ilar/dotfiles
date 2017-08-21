@@ -1,3 +1,4 @@
+#!/bin/zsh
 ######################################################################
 #           spease's zshrc file v1.3.1 , based on:
 #		      jdong's zshrc file v0.2.1
@@ -33,6 +34,12 @@ PAGER='less'
 #TERM=xterm-256color
 EDITOR='vim'
 autoload colors zsh/terminfo
+if [ $(uname) = "Darwin" ]; then
+    printf -- $'\033]6;1;bg;red;brightness;20\a\033]6;1;bg;green;brightness;20\a\033]6;1;bg;blue;brightness;20\a'
+    PROMPT_COMMAND='echo -ne "\033]0;${USER}@${HOSTNAME%%.*}\007"'
+    precmd() { eval "$PROMPT_COMMAND" }
+    HOSTNAME="local"
+fi
 if [[ "$terminfo[colors]" -ge 8 ]]; then
   colors
 fi
@@ -42,7 +49,7 @@ for color in RED GREEN YELLOW BLUE MAGENTA CYAN WHITE; do
   (( count = $count + 1 ))
 done
 PR_NO_COLOR="%{$terminfo[sgr0]%}"
-PS1="[$PR_BLUE%n$PR_WHITE@$PR_GREEN%U%m%u$PR_NO_COLOR:$PR_RED%2c$PR_NO_COLOR]%(!.#.$) "
+PS1="[$PR_BLUE%n$PR_WHITE@$PR_GREEN%U${HOSTNAME}%u$PR_NO_COLOR:$PR_RED%2c$PR_NO_COLOR]%(!.#.$) "
 RPS1="$PR_LIGHT_YELLOW(%D{%m-%d %H:%M})$PR_NO_COLOR"
 #LANGUAGE=
 LC_ALL='en_US.UTF-8'
@@ -214,3 +221,5 @@ push-dotfiles() {
 }
 
 source "${HOME}/.zshrc.local"
+
+test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
