@@ -29,17 +29,17 @@ TZ="America/New_York"
 HISTFILE=$HOME/.zhistory
 HISTSIZE=5000
 SAVEHIST=5000
-HOSTNAME="`hostname`"
+HOSTNAME="$(hostname -s)"
 PAGER='less'
 #TERM=xterm-256color
 EDITOR='vim'
 autoload colors zsh/terminfo
 if [ $(uname) = "Darwin" ]; then
     printf -- $'\033]6;1;bg;red;brightness;20\a\033]6;1;bg;green;brightness;20\a\033]6;1;bg;blue;brightness;20\a'
-    PROMPT_COMMAND='echo -ne "\033]0;${USER}@${HOSTNAME%%.*}\007"'
-    precmd() { eval "$PROMPT_COMMAND" }
     HOSTNAME="local"
 fi
+PROMPT_COMMAND='echo -ne "\033]0;${USER}@${HOSTNAME%%.*}\007"'
+precmd() { eval "$PROMPT_COMMAND" }
 if [[ "$terminfo[colors]" -ge 8 ]]; then
   colors
 fi
