@@ -1,6 +1,6 @@
 #!/bin/zsh
 ######################################################################
-#           spease's zshrc file v1.3.1 , based on:
+#           spease's zshrc file v1.4.3 , based on:
 #		      jdong's zshrc file v0.2.1
 #
 #
@@ -200,13 +200,14 @@ update-dotfiles() {
     unzip "${HOME}/.dotfiles/update.zip" -d "${HOME}/.dotfiles/"
     cp -r ${HOME}/.dotfiles/dotfiles-master/* "${HOME}/.dotfiles/dotfiles/"
   else
-    git pull "${HOME}/.dotfiles/dotfiles/"
+    internal_ilar_var_cwd=$(pwd)
+    git pull
+    cd "$internal_ilar_var_cwd"
   fi
 }
 
 ssh-dotfiles() {
   scp -r "${HOME}/.dotfiles/dotfiles/.zshrc" "$1:"
-  #ssh -t $@ 'mkdir -p "${HOME}/.dotfiles/dotfiles/"; git clone "https://github.com/ilar/dotfiles.git" "${HOME}/.dotfiles/dotfiles/" ; for internal_ilar_var_file in ${HOME}/.dotfiles/dotfiles/*; do; ln -s "${HOME}/.dotfiles/dotfiles/$(basename $internal_ilar_var_file)" "${HOME}/$(basename $internal_ilar_var_file)" ; done'
 }
 
 push-dotfiles() {
@@ -215,8 +216,8 @@ push-dotfiles() {
   else
     internal_ilar_var_cwd=$(pwd)
     cd "${HOME}/.dotfiles/dotfiles/"
-    git add "${HOME}/.dotfiles/dotfiles/*"
-    git commit -a -m "$1"
+    git add *
+    git commit -m "$1"
     git push 
     cd "$internal_ilar_var_cwd"
   fi
