@@ -1,90 +1,189 @@
 #!/bin/zsh
-######################################################################
-#           spease's zshrc file v1.4.3 , based on:
-#		      jdong's zshrc file v0.2.1
+################################################################################
+#                    spease's zshrc file v2.0.1 , based on:
+#                          jdong's zshrc file v0.2.1
 #
 #
-######################################################################
+################################################################################
 
-# next lets set some enviromental/shell pref stuff up
-setopt INC_APPEND_HISTORY SHARE_HISTORY
-setopt APPEND_HISTORY
-unsetopt BG_NICE		# do NOT nice bg commands
-setopt CORRECT			# command CORRECTION
-setopt EXTENDED_HISTORY		# puts timestamps in the history
+################################################################################
+# Set general ZSH options.
+#
+#
 
-setopt MENUCOMPLETE
-setopt ALL_EXPORT
+# History
+setopt SHARE_HISTORY      # Instant export of commands to history file+history
+setopt APPEND_HISTORY     # Allow multiple zsh sessions to coexist.
+setopt EXTENDED_HISTORY   # Puts timestamps in the history.
+setopt HIST_IGNORE_DUPS   # Don't allow contiguous duplicates in history.
 
-# Set/unset  shell options
-setopt   notify globdots correct pushdtohome cdablevars autolist
-setopt   correctall autocd recexact longlistjobs
-setopt   autoresume histignoredups pushdsilent 
-setopt   autopushd pushdminus extendedglob rcquotes mailwarning
-unsetopt bgnice autoparamslash
+# Completion
+setopt CORRECT            # Try to correct bad commands. e.g. cta -> cat
+setopt CORRECT_ALL        # Try to correct bad arguments. e.g. --hepl -> --help
+setopt REC_EXACT          # Allow exact matches without beeping at me.
+setopt AUTO_LIST          # Automatically list choices for ambiguous completes.
+
+# Directories
+setopt PUSHD_TO_HOME      # pushd with no args assumes home directory.
+setopt PUSHD_SILENT       # pushd doesn't tell me things I already know.
+setopt AUTO_PUSHD         # cd is considered a call to pushd.
+setopt AUTO_PARAM_SLASH   # Don't have an extra character to type.
+setopt EXTENDED_GLOB      # nice features like recursive globbing, negation.
+
+# Jobs
+setopt NOTIFY             # Report BG jobs immediately, not at next prompt.
+setopt LONG_LIST_JOBS     # List jobs in long format by default.
+setopt AUTO_RESUME        # Allow a repitition of a bg command to resume it.
+
+# Do not allow: I hate these settings.
+unsetopt BG_NICE          # Background commands run at same priority as FG
+unsetopt MENUCOMPLETE     # When there's completions, let me see them first.
+unsetopt GLOB_DOTS        # Require a dot to match dotfiles.
+
+# Misc
+setopt MAIL_WARNING       # You've got mail.
+setopt ALL_EXPORT         # Global export next section's variables.
 
 
-PATH="/usr/local/git2.8/bin:/home/`hostname -s`/a/spease/.local/bin:/usr/local/bin:/usr/local/sbin/:/bin:/sbin:/usr/bin:/usr/sbin:$PATH"
+################################################################################
+# Get and set general information about the environment
+#
+#
+
+# What toaster/lawnmower/etc am I running this on?
+source "$HOME/.settings/scripts/detect-os"
+
+if [ "$OSX" = "1" ]; then
+    # Set a sane pretty print hostname and make tabs something reasonable.
+    printf -- $'\033]6;1;bg;red;brightness;12\a\033]6;1;bg;green;brightness;12\a\033]6;1;bg;blue;brightness;12\a'
+    HOSTNAME="local"
+else
+    HOSTNAME=$(hostname -s)
+fi
+
+PATH="/usr/local/git2.8/bin:$HOME/.local/bin:/usr/local/bin:/usr/local/sbin/:/bin:/sbin:/usr/bin:/usr/sbin:$PATH"
 TZ="America/New_York"
 HISTFILE=$HOME/.zhistory
 HISTSIZE=5000
 SAVEHIST=5000
-HOSTNAME="$(hostname -s)"
 PAGER='less'
-FGCMD=""
-#TERM=xterm-256color
 EDITOR='vim'
-autoload colors zsh/terminfo
-if [ $(uname) = "Darwin" ]; then
-    printf -- $'\033]6;1;bg;red;brightness;20\a\033]6;1;bg;green;brightness;20\a\033]6;1;bg;blue;brightness;20\a'
-    HOSTNAME="local"
-fi
+MUTT_EDITOR='vim'
+LC_ALL='en_US.UTF-8'
+LANG='en_US.UTF-8'
+LC_CTYPE=C
+
+# Set our terminal titlebar to [$USER@$HOST]$ Current Running Command
+FGCMD=''
 PROMPT_COMMAND='echo -ne "\033]0;[${USER}@${HOSTNAME}]\$ ${FGCMD}\007"'
-precmd() { FGCMD="zsh"; eval "$PROMPT_COMMAND" }
+precmd() { FGCMD='zsh'; eval "$PROMPT_COMMAND" }
 preexec() { FGCMD="$1" ; eval "$PROMPT_COMMAND" }
+
+
+################################################################################
+# Colors
+#
+#
+
+echo -ne '\e]4;0;#121212\a'   # black
+echo -ne '\e]4;1;#d75f5f\a'   # red
+echo -ne '\e]4;2;#87af5f\a'   # green
+echo -ne '\e]4;3;#ffd787\a'   # yellow
+echo -ne '\e]4;4;#87afd7\a'   # blue
+echo -ne '\e]4;5;#d7afff\a'   # magenta
+echo -ne '\e]4;6;#5fd7ff\a'   # cyan
+echo -ne '\e]4;7;#d7d7d7\a'   # white (light grey really)
+echo -ne '\e]4;8;#686a66\a'   # bold black (i.e. dark grey)
+echo -ne '\e]4;9;#f54235\a'   # bold red
+echo -ne '\e]4;10;#99e343\a'  # bold green
+echo -ne '\e]4;11;#fdeb61\a'  # bold yellow
+echo -ne '\e]4;12;#84b0d8\a'  # bold blue
+echo -ne '\e]4;13;#bc94b7\a'  # bold magenta
+echo -ne '\e]4;14;#37e6e8\a'  # bold cyan
+echo -ne '\e]4;15;#f1f1f0\a'  # bold white
+
+autoload colors zsh/terminfo
 if [[ "$terminfo[colors]" -ge 8 ]]; then
   colors
 fi
 for color in RED GREEN YELLOW BLUE MAGENTA CYAN WHITE; do
-  eval PR_$color='%{$terminfo[bold]$fg[${(L)color}]%}'
-  eval PR_LIGHT_$color='%{$fg[${(L)color}]%}'
+  eval PR_$color='$terminfo[bold]$fg[${(L)color}]'
+  eval PR_LIGHT_$color='$fg[${(L)color}]'
   (( count = $count + 1 ))
 done
 PR_NO_COLOR="%{$terminfo[sgr0]%}"
-PS1="[$PR_BLUE%n$PR_WHITE@$PR_GREEN%U${HOSTNAME}%u$PR_NO_COLOR:$PR_RED%2c$PR_NO_COLOR]%(!.#.$) "
-RPS1="$PR_LIGHT_YELLOW(%D{%m-%d %H:%M})$PR_NO_COLOR"
-#LANGUAGE=
-LC_ALL='en_US.UTF-8'
-LANG='en_US.UTF-8'
-LC_CTYPE=C
-LSCOLORS="ExfxcxdxcxegedaBagacad"
+PR_BOLD='[1m'
+PR_DIM='[2m'
+PR_UNDERLINE='[4m'
+PR_BLINK='' # No.
+PR_REVERSE='[7m'
+PR_HIDDEN='[8m'
+PR_NO='[0m'
 
-if [ $SSH_TTY ]; then
-  MUTT_EDITOR=vim
-fi
+# OSX/BSD
+LSCOLORS="EafxcxdxcxegedaBagacad"
+# Linux
+LS_COLORS="di=1;34:ln=35:so=32:pi=33:ex=32:bd=34;46:cd=34;43:su=30;1;41:sg=30\
+;46:tw=30;42:ow=30;43"
+
+
+################################################################################
+# Set the prompt
+#
+#
+
+PS1="[%{$PR_BLUE%}%n%{$PR_WHITE%}@%{$PR_GREEN%}%U${HOSTNAME}%u%{$PR_NO_COLOR%}"
+PS1="$PS1:%{$PR_RED%}%2c%{$PR_NO_COLOR%}]%(!.#.$) "
+RPS1="%{$PR_LIGHT_YELLOW%}(%D{%m-%d %H:%M})%{$PR_NO_COLOR%}"
+
+
+################################################################################
+# Done with enviromental variables.
+#
+#
 
 unsetopt ALL_EXPORT
-# # --------------------------------------------------------------------
-# # aliases
-# # --------------------------------------------------------------------
+
+
+################################################################################
+# Aliases
+#
+#
 
 alias man='LC_ALL=C LANG=C man'
+alias dirs="dirs -v"
 alias f=finger
-if [ $(uname) = "FreeBSD" ] || [ $(uname) = "Darwin" ]; then
+alias s='ssh'
+alias t='touch'
+
+# Diff colorization and sane output.
+alias diff="my_diff"
+alias diff_color="perl -pe 's/^[^+-@](.*)$/$PR_DIM\1$PR_NO/gm|s/^(\-.*)$/$PR_RED\1$PR_NO/gm|s/^\+(.*)$/$PR_BLUE+\1$PR_NO/gm|s/^@@ \-(\d+),\d+ \+(\d+),\d+ @@/Lines $PR_RED\1$PR_NO and $PR_BLUE\2$PR_NO\./gm'"
+
+# LS colorization
+if [ "$BSD" = "1" ]; then
   alias ll='ls -halG'
   alias ls='ls -G'
 else
   alias ll='ls -hal --color=auto'
   alias ls='ls --color=auto'
 fi
-alias s='ssh'
-alias t='touch'
-alias diff="my_diff"
-alias diff_color="perl -pe 's/^[^+-@](.*)$/[2m\1[0m/gm|s/^(\-.*)$/[38;5;203m\1[0m/gm|s/^\+(.*)$/[38;5;103m+\1[0m/gm|s/^@@ \-(\d+),\d+ \+(\d+),\d+ @@/Lines [38;5;203m\1[0m and [38;5;103m\2[0m\./gm'"
 
+
+################################################################################
+# Turn on what we're all here for- autocompletion magic.
+#
+#
 
 autoload -U compinit
 compinit
+
+
+################################################################################
+# Keybinds
+#
+#
+
 bindkey "" backward-delete-char
 bindkey "" backward-delete-char
 bindkey '^[[2~' beginning-of-line
@@ -95,6 +194,13 @@ bindkey '^[[6~' down-line-or-history
 bindkey "^r" history-incremental-search-backward
 bindkey ' ' magic-space    # also do history expansion on space
 bindkey '^I' complete-word # complete on tab, leave expansion to _expand
+
+
+################################################################################
+# Completion settings. Here there be dragons.
+#
+#
+
 zstyle ':completion::complete:*' use-cache on
 zstyle ':completion::complete:*' cache-path ~/.zsh/cache/$HOST
 
@@ -163,10 +269,23 @@ zstyle ':completion:*:*:*:users' ignored-patterns \
   firebird gnats haldaemon hplip irc klog list man cupsys postfix\
   proxy syslog www-data mldonkey sys snort
 
+
+
+################################################################################
+# Utility functions
+#
+#
+
+# Apply the appropriate colorization for diff.
 my_diff() {
-  /bin/diff -u $@ | diff_color
+    if [ "$LINUX" = "1" ]; then
+        /usr/bin/diff -u $@ | diff_color
+    else
+        /bin/diff -u $@ | diff_color
+    fi
 }
 
+# Set up all the rest of the dotfiles.
 first-install() {
   if ! [ "$1" = "nogit" ]; then
     internal_ilar_var_cwd=$(pwd)
@@ -193,6 +312,7 @@ first-install() {
   fi
 }
 
+
 update-dotfiles() {
   if [ "$1" = "nogit" ]; then
     mkdir -p "${HOME}/.dotfiles/dotfiles/"
@@ -201,6 +321,7 @@ update-dotfiles() {
     cp -r ${HOME}/.dotfiles/dotfiles-master/* "${HOME}/.dotfiles/dotfiles/"
   else
     internal_ilar_var_cwd=$(pwd)
+    cd $HOME/.dotfiles/dotfiles
     git pull
     cd "$internal_ilar_var_cwd"
   fi
@@ -223,4 +344,13 @@ push-dotfiles() {
   fi
 }
 
+
+################################################################################
+# Local settings and handling spurious files.
+#
+#
+
+if ! [ -f "$HOME/.zshrc.local" ]; then
+    touch "$HOME/.zshrc.local"
+fi
 source "${HOME}/.zshrc.local"

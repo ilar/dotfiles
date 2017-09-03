@@ -1,0 +1,21 @@
+#!/bin/zsh
+
+if [[ `uname` == 'Linux' ]]; then
+    export LINUX=1
+else
+    export LINUX=
+fi
+
+if [[ $(uname) == 'Darwin' ]];then
+    export BSD=1
+    export OSX=1
+else
+    export BSD=
+    export OSX=
+fi
+
+if [ $(uname) = 'FreeBSD' ]; then
+    export BSD=1
+else
+    export BSD=
+fi
