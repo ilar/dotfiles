@@ -72,6 +72,7 @@ MUTT_EDITOR='vim'
 LC_ALL='en_US.UTF-8'
 LANG='en_US.UTF-8'
 LC_CTYPE=C
+DOTFILES_DIR="$HOME/.dotfiles/dotfiles"
 
 # Set our terminal titlebar to [$USER@$HOST]$ Current Running Command
 FGCMD=''
@@ -289,55 +290,59 @@ my_diff() {
 first-install() {
   if ! [ "$1" = "nogit" ]; then
     internal_ilar_var_cwd=$(pwd)
-    mkdir -p "${HOME}/.dotfiles/dotfiles/"
+    mkdir -p "$DOTFILES_DIR"
     cd "${HOME}/.dotfiles/"
     git clone "https://github.com/ilar/dotfiles.git"
-    for internal_ilar_var_file in ${HOME}/.dotfiles/dotfiles/*; do
-      if ! [ "$(basename $internal_ilar_var_file)" = ".git" ]; then
-        rm "${HOME}/$(basename $internal_ilar_var_file)"
-        ln -s "${HOME}/.dotfiles/dotfiles/$(basename $internal_ilar_var_file)" "${HOME}/$(basename $internal_ilar_var_file)"
-      fi
-    done
+    update-symlinks
     source "${HOME}/.zshrc"
     cd "$internal_ilar_var_cwd"
   else
     update-dotfiles nogit
-    for internal_ilar_var_file in ${HOME}/.dotfiles/dotfiles/*; do
-      if ! [ "$(basename $internal_ilar_var_file)" = ".git" ]; then
-        rm "${HOME}/$(basename $internal_ilar_var_file)"
-        ln -s "${HOME}/.dotfiles/dotfiles/$(basename $internal_ilar_var_file)" "${HOME}/$(basename $internal_ilar_var_file)"
-      fi
-    done
+    update-symlinks
     source "${HOME}/.zshrc"
   fi
 }
 
+# Handle re-symlinking everything between WC and home dir.
+update-symlinks() {
+    for internal_ilar_var_file in $DOTFILES_DIR/*; do
+      if ! [ "$(basename $internal_ilar_var_file)" = ".git" ]; then
+        rm "${HOME}/$(basename $internal_ilar_var_file)" 2>&1 /dev/null
+        ln -s "$DOTFILES_DIR/$(basename $internal_ilar_var_file)" "${HOME}/$(basename $internal_ilar_var_file)"
+      fi
+    done
+}
 
+# Either git-pull or grab a master copy and shove it over.
 update-dotfiles() {
   if [ "$1" = "nogit" ]; then
-    mkdir -p "${HOME}/.dotfiles/dotfiles/"
+    mkdir -p "$DOTFILES_DIR"
     curl "https://codeload.github.com/ilar/dotfiles/zip/master" -o "${HOME}/.dotfiles/update.zip"
     unzip "${HOME}/.dotfiles/update.zip" -d "${HOME}/.dotfiles/"
-    cp -r ${HOME}/.dotfiles/dotfiles-master/* "${HOME}/.dotfiles/dotfiles/"
+    cp -r ${HOME}/.dotfiles/dotfiles-master/* "$DOTFILES_DIR/"
   else
     internal_ilar_var_cwd=$(pwd)
-    cd $HOME/.dotfiles/dotfiles
+    cd "$DOTFILES_DIR"
     git pull
     cd "$internal_ilar_var_cwd"
   fi
 }
 
+# Send a copy of this file to another host, then run first-install.
 ssh-dotfiles() {
-  scp -r "${HOME}/.dotfiles/dotfiles/.zshrc" "$1:"
+  scp -r "$DOTFILES_DIR/.zshrc" "$1:"
 }
 
+# Push changes upstream.
 push-dotfiles() {
   if [ -z "$1" ]; then
     echo "You must have a commit message."
   else
     internal_ilar_var_cwd=$(pwd)
-    cd "${HOME}/.dotfiles/dotfiles/"
-    git add *
+    cd "$DOTFILES_DIR"
+    for internal_ilar_var_file in $DOTFILES_DIR/*; do
+        git add "$internal_ilar_var_file"
+    done
     git commit -m "$1"
     git push 
     cd "$internal_ilar_var_cwd"
