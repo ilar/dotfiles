@@ -51,7 +51,9 @@ setopt ALL_EXPORT         # Global export next section's variables.
 #
 
 # What toaster/lawnmower/etc am I running this on?
-source "$HOME/.settings/scripts/detect-os"
+if [[ -r "$HOME/.settings/scripts/detect-os" ]]; then
+    source "$HOME/.settings/scripts/detect-os"
+fi
 
 if [ "$OSX" = "1" ]; then
     # Set a sane pretty print hostname and make tabs something reasonable.
@@ -165,9 +167,12 @@ alias diff_color="perl -pe 's/^[^+-@](.*)$/$PR_DIM\1$PR_NO/gm|s/^(\-.*)$/$PR_RED
 if [ "$BSD" = "1" ]; then
   alias ll='ls -halG'
   alias ls='ls -G'
-else
+elif [ "$LINUX" = "1" ]; then
   alias ll='ls -hal --color=auto'
   alias ls='ls --color=auto'
+else
+    alias ll='ls -hal'
+    alias ls='ls'
 fi
 
 
