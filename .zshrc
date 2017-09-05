@@ -305,7 +305,7 @@ first-install() {
 
 # Handle re-symlinking everything between WC and home dir.
 update-symlinks() {
-    for internal_ilar_var_file in $DOTFILES_DIR/*; do
+    for internal_ilar_var_file in $DOTFILES_DIR/*(D); do
       if ! [ "$(basename $internal_ilar_var_file)" = ".git" ]; then
         rm "${HOME}/$(basename $internal_ilar_var_file)" 2>&1 /dev/null
         ln -s "$DOTFILES_DIR/$(basename $internal_ilar_var_file)" "${HOME}/$(basename $internal_ilar_var_file)"
@@ -331,6 +331,7 @@ update-dotfiles() {
 # Send a copy of this file to another host, then run first-install.
 ssh-dotfiles() {
   scp -r "$DOTFILES_DIR/.zshrc" "$1:"
+  ssh $1
 }
 
 # Push changes upstream.
@@ -340,7 +341,7 @@ push-dotfiles() {
   else
     internal_ilar_var_cwd=$(pwd)
     cd "$DOTFILES_DIR"
-    for internal_ilar_var_file in $DOTFILES_DIR/*; do
+    for internal_ilar_var_file in $DOTFILES_DIR/*(D); do
         git add "$internal_ilar_var_file"
     done
     git commit -m "$1"
