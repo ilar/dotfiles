@@ -10,10 +10,8 @@
 # 
 # 
 
-internal_ilar_var_cwd=$(pwd)
-cd $DOTFILES_DIR
-lines=$(git fetch --dry-run 2>&1 | wc -l | tr -d ' ')
+lines=$(git -C $HOME/.dotfiles/dotfiles fetch --dry-run 2>&1 \
+    | wc -l | tr -d ' ')
 if [[ "X$lines" != "X0" ]]; then
     echo "You have pending dotfile updates."
 fi
-cd "$internal_ilar_var_cwd"

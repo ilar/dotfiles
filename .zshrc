@@ -289,13 +289,10 @@ my_diff() {
 # Set up all the rest of the dotfiles.
 first-install() {
   if ! [ "$1" = "nogit" ]; then
-    internal_ilar_var_cwd=$(pwd)
     mkdir -p "$DOTFILES_DIR"
-    cd "${HOME}/.dotfiles/"
-    git clone "https://github.com/ilar/dotfiles.git"
+    git -C $DOTFILES_DIR clone "https://github.com/ilar/dotfiles.git"
     update-symlinks
     source "${HOME}/.zshrc"
-    cd "$internal_ilar_var_cwd"
   else
     update-dotfiles nogit
     update-symlinks
@@ -321,16 +318,14 @@ update-dotfiles() {
     unzip "${HOME}/.dotfiles/update.zip" -d "${HOME}/.dotfiles/"
     cp -r ${HOME}/.dotfiles/dotfiles-master/* "$DOTFILES_DIR/"
   else
-    internal_ilar_var_cwd=$(pwd)
-    cd "$DOTFILES_DIR"
-    git pull
-    cd "$internal_ilar_var_cwd"
+    git -C $DOTFILES_DIR pull
   fi
 }
 
 # Send a copy of this file to another host, then run first-install.
 ssh-dotfiles() {
   scp -r "$DOTFILES_DIR/.zshrc" "$1:"
+  echo "Please run first-install."
   ssh $1
 }
 
@@ -339,14 +334,11 @@ push-dotfiles() {
   if [ -z "$1" ]; then
     echo "You must have a commit message."
   else
-    internal_ilar_var_cwd=$(pwd)
-    cd "$DOTFILES_DIR"
     for internal_ilar_var_file in $DOTFILES_DIR/*(D); do
-        git add "$internal_ilar_var_file"
+        git -C $DOTFILES_DIR add "$internal_ilar_var_file"
     done
-    git commit -m "$1"
-    git push 
-    cd "$internal_ilar_var_cwd"
+    git -C $DOTFILES_DIR commit -m "$1"
+    git -C $DOTFILES_DIR push 
   fi
 }
 
