@@ -292,11 +292,9 @@ first-install() {
     mkdir -p "$DOTFILES_DIR"
     git -C $DOTFILES_DIR clone "https://github.com/ilar/dotfiles.git"
     update-symlinks
-    source "${HOME}/.zshrc"
   else
     update-dotfiles nogit
     update-symlinks
-    source "${HOME}/.zshrc"
   fi
 }
 
@@ -304,10 +302,11 @@ first-install() {
 update-symlinks() {
     for internal_ilar_var_file in $DOTFILES_DIR/*(D); do
       if ! [ "$(basename $internal_ilar_var_file)" = ".git" ]; then
-        rm "${HOME}/$(basename $internal_ilar_var_file)" 2>&1 /dev/null
+        rm "${HOME}/$(basename $internal_ilar_var_file)" 2>&1 > /dev/null
         ln -s "$DOTFILES_DIR/$(basename $internal_ilar_var_file)" "${HOME}/$(basename $internal_ilar_var_file)"
       fi
     done
+    source $HOME/.zshrc
 }
 
 # Either git-pull or grab a master copy and shove it over.
@@ -320,6 +319,7 @@ update-dotfiles() {
   else
     git -C $DOTFILES_DIR pull
   fi
+  update-symlinks
 }
 
 # Send a copy of this file to another host, then run first-install.
