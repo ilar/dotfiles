@@ -302,7 +302,7 @@ first-install() {
 update-symlinks() {
     for internal_ilar_var_file in $DOTFILES_DIR/*(D); do
       if ! [ "$(basename $internal_ilar_var_file)" = ".git" ]; then
-        rm "${HOME}/$(basename $internal_ilar_var_file)" 2>&1 > /dev/null
+        rm "${HOME}/$(basename $internal_ilar_var_file)" 2> /dev/null
         ln -s "$DOTFILES_DIR/$(basename $internal_ilar_var_file)" "${HOME}/$(basename $internal_ilar_var_file)"
       fi
     done
@@ -315,7 +315,7 @@ update-dotfiles() {
     mkdir -p "$DOTFILES_DIR"
     curl "https://codeload.github.com/ilar/dotfiles/zip/master" -o "${HOME}/.dotfiles/update.zip"
     unzip "${HOME}/.dotfiles/update.zip" -d "${HOME}/.dotfiles/"
-    cp -r ${HOME}/.dotfiles/dotfiles-master/* "$DOTFILES_DIR/"
+    cp -r ${HOME}/.dotfiles/dotfiles-master/*(D) "$DOTFILES_DIR/"
   else
     git -C $DOTFILES_DIR pull
   fi
