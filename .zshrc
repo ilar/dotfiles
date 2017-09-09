@@ -294,8 +294,8 @@ my_diff() {
 # Set up all the rest of the dotfiles.
 first-install() {
   if ! [ "$1" = "nogit" ]; then
-    mkdir -p "$DOTFILES_DIR"
-    git -C $DOTFILES_DIR clone "https://github.com/ilar/dotfiles.git"
+    mkdir -p "$HOME/.dotfiles"
+    git -C "$HOME/.dotfiles" clone "https://github.com/ilar/dotfiles.git"
     update-symlinks
   else
     update-dotfiles nogit
