@@ -356,4 +356,7 @@ push-dotfiles() {
 if ! [ -f "$HOME/.zshrc.local" ]; then
     touch "$HOME/.zshrc.local"
 fi
+if ! [ -f "$HOME/.vimrc.local" ]; then
+    touch "$HOME/.vimrc.local"
+fi
 source "${HOME}/.zshrc.local"
