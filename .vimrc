@@ -24,6 +24,7 @@ set expandtab
 
 " Set list settings
 set listchars=tab:>.,trail:.,extends:#,nbsp:.
+set list
 autocmd filetype html,xml set listchars-=tab:>.
 
 " F2 lets you toggle between
