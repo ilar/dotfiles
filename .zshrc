@@ -57,7 +57,7 @@ fi
 
 if [ "$OSX" = "1" ]; then
     # Set a sane pretty print hostname and make tabs something reasonable.
-    printf -- $'\033]6;1;bg;red;brightness;12\a\033]6;1;bg;green;brightness;12\a\033]6;1;bg;blue;brightness;12\a'
+    printf -- $'\033]6;1;bg;red;brightness;18\a\033]6;1;bg;green;brightness;18\a\033]6;1;bg;blue;brightness;18\a'
     HOSTNAME="local"
 else
     HOSTNAME=$(hostname -s)
