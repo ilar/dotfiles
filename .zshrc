@@ -161,7 +161,7 @@ alias t='touch'
 
 # Diff colorization and sane output.
 alias diff="my_diff"
-alias diff_color="perl -pe 's/^[^+-@](.*)$/$PR_DIM\1$PR_NO/gm|s/^(\-.*)$/$PR_RED\1$PR_NO/gm|s/^\+(.*)$/$PR_BLUE+\1$PR_NO/gm|s/^@@ \-(\d+),\d+ \+(\d+),\d+ @@/Lines $PR_RED\1$PR_NO and $PR_BLUE\2$PR_NO\./gm'"
+alias diff_color="perl -pe 's/^[^+-@](.*)$/$PR_DIM\1$PR_NO/gm|s/^\-(.*)$/$PR_RED\1$PR_NO/gm|s/^\+(.*)$/$PR_BLUE\1$PR_NO/gm|s/^@@ \-(\d+),\d+ \+(\d+),\d+ @@/Lines $PR_RED\1$PR_NO and $PR_BLUE\2$PR_NO\./gm'"
 
 # LS colorization
 if [ "$BSD" = "1" ]; then
