@@ -1,7 +1,6 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =5
-let g:netrw_dirhist_1='/Users/spease/.dotfiles/dotfiles/.vim/bundle'
-let g:netrw_dirhist_2='/Users/spease/.dotfiles/dotfiles/.vim/bundle/vim-flake8-master'
-let g:netrw_dirhist_3='/Users/spease/.dotfiles/dotfiles/.vim/bundle/vim-flake8-master/ftplugin'
-let g:netrw_dirhist_4='/Users/spease/.dotfiles/dotfiles/.vim/bundle/vim-flake8-master/autoload'
-let g:netrw_dirhist_5='/Users/spease'
+let g:netrw_dirhist_cnt =4
+let g:netrw_dirhist_1='/home/clmbs-wm2/a/spease/projects/gateway/accounts'
+let g:netrw_dirhist_2='/home/clmbs-wm2/a/spease/projects/gateway_sn/trunk/entities'
+let g:netrw_dirhist_3='/home/clmbs-wm2/a/spease/projects/gateway/python-eggs'
+let g:netrw_dirhist_4='/home/clmbs-wm2/a/spease/projects/gateway/contacts'

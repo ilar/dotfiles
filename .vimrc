@@ -63,6 +63,9 @@ augroup Shebang
   autocmd FileType c,cpp,java,php,python autocmd BufWritePre <buffer> %s/\s\+$//e
 augroup END
 
+autocmd FileType python :set cc=110
+autocmd FileType c,cpp,java,php,sh :set cc=80
+
 " Easy addon management.
 execute pathogen#infect()
 
