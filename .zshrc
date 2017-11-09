@@ -78,7 +78,7 @@ DOTFILES_DIR="$HOME/.dotfiles/dotfiles"
 
 # Set our terminal titlebar to [$USER@$HOST]$ Current Running Command
 FGCMD=''
-PROMPT_COMMAND='echo -ne "\033]0;[${USER}@${HOSTNAME}]\$ ${FGCMD}\t\t$(date +"(%m-%d %H:%M)")\007"'
+PROMPT_COMMAND='nprompt="[${USER}@${HOSTNAME}]\$ ${FGCMD} ";printf "\033]0;%s %$(echo 60-${#nprompt} | bc)s\007" "$nprompt" "$(date +"(%m-%d %H:%M)")"'
 precmd() { FGCMD='zsh'; eval "$PROMPT_COMMAND" }
 preexec() { FGCMD="$1" ; eval "$PROMPT_COMMAND" }
 
