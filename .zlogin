@@ -11,11 +11,13 @@
 # 
 
 check-for-updates() {
-    lines=$(git -C $HOME/.dotfiles/dotfiles fetch --dry-run 2>&1 \
-        | wc -l | tr -d ' ')
-    if [[ "X$lines" != "X0" ]]; then
-        printf "\rYou have pending dotfile updates.\n\r"
-        print -nP "$PS1"
+    if [ $(which git > /dev/null) = 0 ]; then
+        lines=$(git -C $HOME/.dotfiles/dotfiles fetch --dry-run 2>&1 \
+            | wc -l | tr -d ' ')
+        if [[ "X$lines" != "X0" ]]; then
+            printf "\rYou have pending dotfile updates.\n\r"
+            print -nP "$PS1"
+        fi
     fi
 }
 
