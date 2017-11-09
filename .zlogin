@@ -11,7 +11,7 @@
 # 
 
 check-for-updates() {
-    if [ $(which git > /dev/null) = 0 ]; then
+    if which git > /dev/null; then
         lines=$(git -C $HOME/.dotfiles/dotfiles fetch --dry-run 2>&1 \
             | wc -l | tr -d ' ')
         if [[ "X$lines" != "X0" ]]; then
