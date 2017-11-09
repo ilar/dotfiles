@@ -319,8 +319,8 @@ update-dotfiles() {
   if [ "$1" = "nogit" ]; then
     mkdir -p "$DOTFILES_DIR"
     curl "https://codeload.github.com/ilar/dotfiles/zip/master" -o "${HOME}/.dotfiles/update.zip"
-    unzip "${HOME}/.dotfiles/update.zip" -d "${HOME}/.dotfiles/"
-    cp -r ${HOME}/.dotfiles/dotfiles-master/*(D) "$DOTFILES_DIR/"
+    unzip -o "${HOME}/.dotfiles/update.zip" -d "${HOME}/.dotfiles/"
+    cp -fr ${HOME}/.dotfiles/dotfiles-master/*(D) "$DOTFILES_DIR/"
   else
     git -C $DOTFILES_DIR pull
   fi
