@@ -78,7 +78,7 @@ DOTFILES_DIR="$HOME/.dotfiles/dotfiles"
 
 # Set our terminal titlebar to [$USER@$HOST]$ Current Running Command
 FGCMD=''
-PROMPT_COMMAND='nprompt="[${USER}@${HOSTNAME}]\$ ${FGCMD} ";printf "\033]0;%s %$(echo 60-${#nprompt} | bc)s\007" "$nprompt" "$(date +"(%m-%d %H:%M)")"'
+PROMPT_COMMAND='printf "\033]0;[${USER}@${HOSTNAME}]\$ ${FGCMD}\x09\x09$(date +"(%m-%d %H:%M)")\007"'
 precmd() { FGCMD='zsh'; eval "$PROMPT_COMMAND" }
 preexec() { FGCMD="$1" ; eval "$PROMPT_COMMAND" }
 
@@ -190,17 +190,20 @@ compinit
 #
 #
 
-bindkey "" backward-delete-char
-bindkey "" backward-delete-char
-bindkey '^[[2~' beginning-of-line
-bindkey '^[[3~' delete-char
-bindkey '^[[4~' end-of-line
-bindkey '^[[5~' up-line-or-history
-bindkey '^[[6~' down-line-or-history
 bindkey "^r" history-incremental-search-backward
 bindkey ' ' magic-space    # also do history expansion on space
 bindkey '^I' complete-word # complete on tab, leave expansion to _expand
-
+bindkey "\e[1~" beginning-of-line # home
+bindkey "\e[2~" insert # insert
+bindkey "\e[3~" delete-char # delete
+bindkey "\e[4~" end-of-line # end
+bindkey "\e[5~" up-line-or-history # page up
+bindkey "\e[6~" down-line-or-history # page down
+bindkey "^H" backward-delete-char # Backspace
+bindkey "^?" backward-delete-char # Also backspace, depending on terminal
+# for freebsd console
+bindkey "\e[H" beginning-of-line # Home
+bindkey "\e[F" end-of-line # End
 
 ################################################################################
 # Completion settings. Here there be dragons.
