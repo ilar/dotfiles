@@ -75,7 +75,6 @@ LC_ALL='en_US.UTF-8'
 LANG='en_US.UTF-8'
 LC_CTYPE=C
 DOTFILES_DIR="$HOME/.dotfiles/dotfiles"
-fpath=$(~/.settings/completions $fpath)
 
 # Set our terminal titlebar to [$USER@$HOST]$ Current Running Command
 FGCMD=''
@@ -184,6 +183,7 @@ fi
 
 autoload -U compinit
 compinit
+fpath=(~/.settings/completions $fpath)
 
 
 ################################################################################
