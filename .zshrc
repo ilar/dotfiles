@@ -294,7 +294,6 @@ my_diff() {
     fi
 }
 
-# Set up all the rest of the dotfiles.
 first-install() {
   if ! [ "$1" = "nogit" ]; then
     mkdir -p "$HOME/.dotfiles"

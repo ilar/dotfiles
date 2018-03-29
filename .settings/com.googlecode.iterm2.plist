@@ -636,15 +636,15 @@
 	<key>NSWindow Frame NSFontPanel</key>
 	<string>809 130 746 153 0 0 1680 1028 </string>
 	<key>NSWindow Frame SUUpdateAlert</key>
-	<string>343 193 620 392 0 0 1920 1058 </string>
+	<string>1991 195 620 392 1920 0 1920 1058 </string>
 	<key>NSWindow Frame SessionsPreferences</key>
 	<string>269 207 599 388 0 0 1680 1028 </string>
 	<key>NSWindow Frame SharedPreferences</key>
-	<string>393 203 796 473 0 0 1920 1058 </string>
+	<string>393 401 1018 447 0 0 1920 1058 </string>
 	<key>NSWindow Frame UKCrashReporter</key>
-	<string>2765 334 592 584 1680 -68 1920 1058 </string>
+	<string>2427 281 592 584 1920 0 1920 1058 </string>
 	<key>NSWindow Frame iTerm Window 0</key>
-	<string>676 4 957 1054 0 0 1920 1058 </string>
+	<string>960 4 957 1054 0 0 1920 1058 </string>
 	<key>NeverWarnAboutShortLivedSessions_C4EB2E69-0225-487D-BCAB-408BCF9F57FE</key>
 	<true/>
 	<key>NeverWarnAboutShortLivedSessions_C4EB2E69-0225-487D-BCAB-408BCF9F57FE_selection</key>
@@ -2236,11 +2236,11 @@
 	<key>SUFeedAlternateAppNameKey</key>
 	<string>iTerm</string>
 	<key>SUFeedURL</key>
-	<string>https://iterm2.com/appcasts/testing.xml?shard=24</string>
+	<string>https://iterm2.com/appcasts/nightly.xml?shard=24</string>
 	<key>SUHasLaunchedBefore</key>
 	<true/>
 	<key>SULastCheckTime</key>
-	<date>2018-01-05T15:10:10Z</date>
+	<date>2018-03-19T18:18:34Z</date>
 	<key>SUSendProfileInfo</key>
 	<false/>
 	<key>SavePasteHistory</key>
@@ -2266,11 +2266,13 @@
 	<key>TerminalVMargin</key>
 	<integer>20</integer>
 	<key>UKCrashReporterLastCrashReportDate</key>
-	<real>1503341824</real>
+	<real>1521217920</real>
 	<key>UseBorder</key>
 	<false/>
 	<key>UseLionStyleFullscreen</key>
 	<true/>
+	<key>UseMetal</key>
+	<false/>
 	<key>WindowNumber</key>
 	<false/>
 	<key>WordCharacters</key>
@@ -2278,7 +2280,7 @@
 	<key>findMode_iTerm</key>
 	<integer>0</integer>
 	<key>iTerm Version</key>
-	<string>3.1.5.beta.2</string>
+	<string>3.2.20180312-nightly</string>
 	<key>kCPKSelectionViewPreferredModeKey</key>
 	<integer>0</integer>
 	<key>kCPKSelectionViewShowHSBTextFieldsKey</key>
