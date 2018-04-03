@@ -158,7 +158,7 @@ alias dirs="dirs -v"
 alias f=finger
 alias s='ssh'
 alias t='touch'
-alias dog='~/.settings/scripts/vimcat'
+alias dog='~/.settings/scripts/dog.py'
 
 # Diff colorization and sane output.
 alias diff="my_diff"
