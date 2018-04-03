@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: iso-8859-15 -*-
 
+from pygments import highlight
 from pygments.lexers import guess_lexer
 from pygments.formatters.terminal256 import Terminal256Formatter
 from jellybeans import JellybeansStyle
