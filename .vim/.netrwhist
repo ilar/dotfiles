@@ -1,0 +1,7 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhist_cnt =5
+let g:netrw_dirhist_1='/home/clmbs-wm2/a/spease/projects/gateway/core'
+let g:netrw_dirhist_2='/home/clmbs-wm2/a/spease/projects/gateway/entities'
+let g:netrw_dirhist_3='/home/clmbs-wm2/a/spease/projects/gateway/contacts'
+let g:netrw_dirhist_4='/home/clmbs-wm2/a/spease/projects/gateway/static/css'
+let g:netrw_dirhist_5='/home/clmbs-wm2/a/www/htdocs/gateway/trunk/gateway/settings'
