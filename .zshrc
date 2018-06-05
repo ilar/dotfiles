@@ -322,7 +322,7 @@ update-symlinks() {
 update-dotfiles() {
   if [ "$1" = "nogit" ]; then
     mkdir -p "$DOTFILES_DIR"
-    curl "https://codeload.github.com/ilar/dotfiles/zip/master" -o "${HOME}/.dotfiles/update.zip"
+    curl "https://gitlab.com/spease/dotfiles/-/archive/master/dotfiles-master.zip" -o "${HOME}/.dotfiles/update.zip"
     unzip -o "${HOME}/.dotfiles/update.zip" -d "${HOME}/.dotfiles/"
     cp -fr ${HOME}/.dotfiles/dotfiles-master/*(D) "$DOTFILES_DIR/"
   else
